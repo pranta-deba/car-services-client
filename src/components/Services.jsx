@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import Card from "./Card";
+import Card from "./Card"
+import axios from "axios";
 
 const Services = () => {
     const [services, setServices] = useState([]);
     useEffect(() => {
-        fetch('/services.json')
-            .then(res => res.json())
-            .then(data => setServices(data));
+        const getData = async () => {
+            const { data } = await axios(`${import.meta.env.VITE_API_URL}/services`)
+            setServices(data)
+        }
+        getData()
     }, [])
 
     return (
@@ -25,7 +28,7 @@ const Services = () => {
 
             </div>
             <div className="text-center my-10">
-            <a className="btn border-2 border-[#FF3811] text-[#FF3811]  bg-transparent hover:bg-[#FF3811] hover:text-white text-lg font-semibold">More Services</a>
+                <a className="btn border-2 border-[#FF3811] text-[#FF3811]  bg-transparent hover:bg-[#FF3811] hover:text-white text-lg font-semibold">More Services</a>
             </div>
         </div>
     );

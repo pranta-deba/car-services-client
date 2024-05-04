@@ -2,8 +2,17 @@ import { Outlet } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import { useContext } from 'react'
+import { AuthContext } from './provider/AuthProvider'
 
 function App() {
+  const { useLoader } = useContext(AuthContext);
+
+  if (useLoader) {
+    return <div className='w-full h-screen flex justify-center items-center'>
+      <span className="loading loading-spinner loading-lg"></span>
+    </div>
+  }
 
   return (
     <>
