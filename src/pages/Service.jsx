@@ -2,19 +2,29 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Service = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useContext(AuthContext);
+    const [refetch, setRefetch] = useState(true);
+    const axiosSecure = useAxiosSecure();
+    const url = `orders?email=${user?.email}`;
 
     useEffect(() => {
-        getData()
-    }, [user])
-    
-    const getData = async () => {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/orders?email=${user?.email}`, { withCredentials: true })
-        setOrders(data);
-    }
+        axiosSecure.get(url)
+            .then(res => {
+                setOrders(res.data);
+            })
+    }, [user, axiosSecure, url, refetch])
+
+    // useEffect(() => {
+    //     getData()
+    // }, [user])
+    // const getData = async () => {
+    //     const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/orders?email=${user?.email}`, { withCredentials: true })
+    //     setOrders(data);
+    // }
 
 
     const handleDelete = async id => {
@@ -29,7 +39,7 @@ const Service = () => {
             if (data.deletedCount > 0) {
                 toast.success('Delete Successful')
                 //refresh ui
-                getData()
+                setRefetch(!refetch);
             }
         } catch (err) {
             console.log(err.message)

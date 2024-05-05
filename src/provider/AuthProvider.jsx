@@ -19,6 +19,12 @@ const AuthProvider = ({ children }) => {
                     })
                 setUserLoader(false);
             } else {
+                axios.post('http://localhost:5000/logOut', { user: currentUser?.email }, {
+                    withCredentials: true
+                })
+                    .then((res) => {
+                        console.log(res.data);
+                    })
                 setUser(null);
                 setUserLoader(false);
             }
@@ -36,7 +42,7 @@ const AuthProvider = ({ children }) => {
     const logOut = () => {
         signOut(auth)
             .then(() => {
-
+                
             }).catch((err) => {
                 console.log(err);
             });

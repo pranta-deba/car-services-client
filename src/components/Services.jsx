@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import Card from "./Card"
-import axios from "axios";
+// import axios from "axios";
+import useServices from "../hooks/useServices";
 
 const Services = () => {
-    const [services, setServices] = useState([]);
-    useEffect(() => {
-        const getData = async () => {
-            const { data } = await axios(`${import.meta.env.VITE_API_URL}/services`)
-            setServices(data)
-        }
-        getData()
-    }, [])
+    // const [services, setServices] = useState([]);
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         const { data } = await axios(`${import.meta.env.VITE_API_URL}/services`)
+    //         setServices(data)
+    //     }
+    //     getData()
+    // }, [])
+    const services = useServices();
 
     return (
         <div className=" px-3 md:px-0">
